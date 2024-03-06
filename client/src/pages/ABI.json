@@ -1,0 +1,183 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_phoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_profileImgUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_about",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "_access",
+				"type": "bool"
+			}
+		],
+		"name": "addUser",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_file_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_file_url",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_file_type",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_file_size",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_upload_timestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			}
+		],
+		"name": "addUserImage",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUser",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "profileImgUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "about",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "access",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "getUserFiles",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "file_name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "file_url",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "file_type",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "file_size",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "upload_timestamp",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					}
+				],
+				"internalType": "struct VaultSystem.FileMetaData[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

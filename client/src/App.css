@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+.logo-font {
+  font-family: "Kode Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #0077ff, 0 0 10px #0077ff, 0 0 20px #0077ff, 0 0 40px #0077ff, 0 0 80px #0077ff, 0 0 90px #0077ff, 0 0 100px #0077ff, 0 0 150px #0077ff;
+  }
+  50% {
+    text-shadow: 0 0 15px #0077ff, 0 0 20px #0077ff, 0 0 30px #0077ff, 0 0 40px #0077ff, 0 0 50px #0077ff, 0 0 60px #0077ff, 0 0 70px #0077ff, 0 0 80px #0077ff;
+  }
+  100% {
+    text-shadow: 0 0 5px #0077ff, 0 0 10px #0077ff, 0 0 20px #0077ff, 0 0 40px #0077ff, 0 0 80px #0077ff, 0 0 90px #0077ff, 0 0 100px #0077ff, 0 0 150px #0077ff;
+  }
+}
+
+.glow-text-blue {
+  animation: glow 1.5s infinite alternate;
+}
+
+
+
+
