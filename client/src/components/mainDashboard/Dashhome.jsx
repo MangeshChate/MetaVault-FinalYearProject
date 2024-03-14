@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import MyLineChart from '../charts/MyLineChart';
+import {ethers} from "ethers";
 import FileTypeDistributionPieChart from '../charts/FileTypeDistributionPieChart';
 import { Download, KeyboardArrowDown, KeyboardArrowUp, Upload } from '@mui/icons-material';
 
-const Dashhome = () => {
+const Dashhome = ({contract }) => {
     const [dateTime, setDateTime] = useState(new Date());
+    const [userData , setUserData] = useState([]);
+    const [balance , setBalance] = useState('?');
+
+    const account = localStorage.getItem('account');
+    
     const [fileHistory, setFileHistory] = useState([
         { id: 1, fileName: 'Document.pdf', size: '2.5 MB', action: 'Uploaded', date: new Date() },
         { id: 2, fileName: 'Image.jpg', size: '1.1 MB', action: 'Downloaded', date: new Date() },
@@ -19,12 +25,55 @@ const Dashhome = () => {
         return () => clearInterval(intervalID);
     }, []);
 
+    useEffect(() => {
+        const res = async () => {
+            try {
+                // Check if contract is set
+                if (contract) {
+                    const data = await contract.getUser(account);
+                    console.log('Data from contract:', data);
+                    setUserData(data); // Set user data in state
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        res();
+    }, [contract]);
+
+
     const formattedTime = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    useEffect(() => {
+        const getAccountBalance = async (accountAddress) => {
+            try {
+                // Create a provider instance
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                
+                // Fetch balance
+                const balance = await provider.getBalance(accountAddress);
+                
+                // Convert balance from Wei to Ether
+                const balanceInEther = ethers.utils.formatEther(balance);
+                
+                // Update state with the balance
+                setBalance(balanceInEther);
+                
+                return balanceInEther;
+            } catch (error) {
+                console.error('Error fetching account balance:', error);
+                return null;
+            }
+        };
+
+        getAccountBalance(account);
+    }, [account]);
 
     return (
         <div>
             <div className='m-5'>
-                <span className='text-3xl font-bold'>Welcome Username</span>
+                <span className='text-3xl font-bold'>Welcome {userData[0]}</span>
             </div>
             <div>
                 <div className='lg:grid lg:grid-cols-2 lg:p-4 lg:gap-5'>
@@ -68,9 +117,9 @@ const Dashhome = () => {
                             </span>
                           </div>
                           <div className='flex flex-col gap-3 p-4'>
-                            <div className='logo-font'>Total Bal: <span className=''>20 ETH</span></div>
-                            <div className='font-mono text-xl'>
-                                0x78689344350829345
+                            <div className='logo-font'>Total Bal: <span className=''>{balance} ETH</span></div>
+                            <div className='font-mono '>
+                                {account}
                             </div>
                           </div>
                         

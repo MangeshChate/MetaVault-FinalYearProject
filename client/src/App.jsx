@@ -26,13 +26,8 @@ const App = () => {
       <Route path="/" element={<Home/>}/>
       <Route path="/connect" element={<Connect saveState={saveState}/>}/>
       <Route path="/register" element={<Register state={state}/>}/>
-      <Route path="/dashboard" element={<Dashboard state={state}/>}/>
-
-
-
-
-      
-      </Routes>
+      <Route path="/dashboard" element={<Dashboard state={state} saveState={saveState}/> }/>
+  </Routes>
 
     </Router>
   )

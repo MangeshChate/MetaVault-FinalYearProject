@@ -36,7 +36,7 @@ const Connect = ({saveState}) => {
         setSignature(signature);
 
 
-        const contractAddress = "0x985903b80aa7e5824a156C8f301F5822274966E7";
+        const contractAddress = "0x63C7F8B054d51c9968549e86BaDcb43c0097ed81";
         const abi = ABI;
 
         const contract = new ethers.Contract(contractAddress , abi ,signer);

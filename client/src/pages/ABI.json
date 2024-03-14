@@ -66,11 +66,6 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "_file_size",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
 				"name": "_upload_timestamp",
 				"type": "uint256"
 			},
@@ -155,11 +150,6 @@
 						"internalType": "string",
 						"name": "file_type",
 						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "file_size",
-						"type": "uint256"
 					},
 					{
 						"internalType": "uint256",
