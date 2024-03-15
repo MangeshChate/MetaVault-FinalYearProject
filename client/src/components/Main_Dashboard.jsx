@@ -16,7 +16,7 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
   return (
     <div className="text-white">
     {selectedComponent ===  '' && <Dashhome  contract={contract} />}
-    {selectedComponent === 'MyFiles' && <MyFiles />}
+    {selectedComponent === 'MyFiles' && <MyFiles contract={contract} />}
     {selectedComponent === 'Images' && <Images />}
     {selectedComponent === 'Videos' && <Videos />}
     {selectedComponent === 'TalkWithAI' && <ChatAi />}
