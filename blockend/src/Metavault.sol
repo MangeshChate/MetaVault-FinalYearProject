@@ -6,10 +6,6 @@ pragma solidity ^0.8.24;
     Description:  Creating a secure e-vault system on an Ethereum blockchain.
     0x697245d7014276422894bEb8d26793Dd6b78296F
 */
-<<<<<<< HEAD
-=======
-// this is amey's line
->>>>>>> 7c2a1e8f6f8a9c07f713c103138c98571f97ae63
 
 contract VaultSystem {
 
