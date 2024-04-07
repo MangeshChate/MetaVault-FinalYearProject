@@ -1,8 +1,9 @@
 import React from 'react';
 import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack } from '@mui/icons-material';
-import Images from './mainDashboard/Images';
+
 
 const Leftbar_Dashboard = ({ onItemClick }) => {
+  const profileImageUrl = localStorage.getItem("profileImgUrl");
   return (
     <div className='h-[92vh]   p-5 bg-[#252525] text-light'>
       <div className='flex mt-5'>
@@ -44,11 +45,19 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
             <span>Talk With AI</span>
           </li>
           <hr className='mt-5' />
-          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer'>
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('profile')}>
+            <span className=''>
+              <img src={profileImageUrl} className='w-[50px] rounded-full ' alt="" />
+            </span>
+            <span >My Profile</span>
+          </li>
+          
+          <hr className='mt-5' />
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('experiences')}>
             <span className=''>
               <img src="https://cdn-icons-png.flaticon.com/512/11632/11632430.png" className='w-[50px]' alt="" />
             </span>
-            <span>Experiences</span>
+            <span >Experiences</span>
           </li>
           <hr className='mt-5' />
         </ul>

@@ -5,8 +5,10 @@ import FileTypeDistributionPieChart from './charts/FileTypeDistributionPieChart'
 import Dashhome from './mainDashboard/Dashhome'
 import MyFiles from './mainDashboard/MyFiles'
 import ChatAi from './mainDashboard/ChatAi'
-import Images from './mainDashboard/Images'
+import MyImages from './mainDashboard/MyImages'
 import Videos from './mainDashboard/Videos'
+import Experiences from './mainDashboard/Experiences'
+import Profile from './mainDashboard/Profile'
 
 
 const Main_Dashboard = ({selectedComponent  , contract }) => {
@@ -17,10 +19,15 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
     <div className="text-white">
     {selectedComponent ===  '' && <Dashhome  contract={contract} />}
     {selectedComponent === 'MyFiles' && <MyFiles contract={contract} />}
-    {selectedComponent === 'Images' && <Images />}
-    {selectedComponent === 'Videos' && <Videos />}
+    {selectedComponent === 'Images' && <MyImages  contract={contract}/>}
+    {selectedComponent === 'Videos' && <Videos contract={contract}/>}
     {selectedComponent === 'TalkWithAI' && <ChatAi />}
+    {selectedComponent === 'experiences' && <Experiences contract={contract}/>}
+    {selectedComponent === 'profile' && <Profile contract={contract}/>}
 
+
+
+    
 
     </div>
   )

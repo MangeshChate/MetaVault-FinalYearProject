@@ -10,6 +10,8 @@ const Dashboard = ({ state }) => {
     const [contract, setContract] = useState(null);
     const [userData , setUserData] = useState([]);
 
+
+
     const handleNavbarItemClick = (componentName) => {
         setSelectedComponent(componentName);
     };
@@ -27,7 +29,7 @@ const Dashboard = ({ state }) => {
                 
                 setConnected(true);
     
-                const contractAddress = "0x63C7F8B054d51c9968549e86BaDcb43c0097ed81";
+                const contractAddress = "0x697245d7014276422894bEb8d26793Dd6b78296F";
                 const abi = ABI;
                 const contract = new ethers.Contract(contractAddress, abi, signer);
                 setContract(contract);
@@ -60,6 +62,8 @@ const Dashboard = ({ state }) => {
         res();
     }, [contract]);
 
+    localStorage.setItem("profileImgUrl", userData[1]);
+
 
     return (
         <div className=''>
@@ -72,7 +76,7 @@ const Dashboard = ({ state }) => {
                         {account}
                     </div>
 
-                    <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full'>
+                    <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full' >
                         <img src={userData[1]} alt="" className='w-[50px] h-[50px] rounded-full' />
                         <span className='font-mono'>{userData[0]}</span>
                     </div>

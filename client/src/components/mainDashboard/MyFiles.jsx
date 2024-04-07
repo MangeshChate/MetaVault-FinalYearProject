@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Add, Close, CloseFullscreen } from '@mui/icons-material';
 import { CircularProgress } from "@mui/material";
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 const pdfLogo = "https://upload.wikimedia.org/wikipedia/commons/4/42/Pdf-2127829.png";
 
@@ -99,7 +100,12 @@ const MyFiles = ({ contract }) => {
       const tx = await contract.addUserImage(account, title, imgHash, fileType, timestamp, description);
       await tx.wait();
 
-      alert('File Uploaded successfully!');
+      
+      Swal.fire({
+        title: "File Uploaded Successfully !",
+        text: "You Uploaded File On Blockchain Successfully",
+        icon: "success"
+      });
       setUploadingFile(false)
     } catch (error) {
       console.error('Error:', error);

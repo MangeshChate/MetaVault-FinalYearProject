@@ -86,6 +86,29 @@
 				"internalType": "address",
 				"name": "_userAddress",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_file_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_file_url",
+				"type": "string"
+			}
+		],
+		"name": "deleteFileByAttributes",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
 			}
 		],
 		"name": "getUser",
@@ -165,6 +188,74 @@
 				"internalType": "struct VaultSystem.FileMetaData[]",
 				"name": "",
 				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_userAddress",
+				"type": "address"
+			}
+		],
+		"name": "isUserRegistered",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "users",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "phoneNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "profileImgUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "about",
+				"type": "string"
+			},
+			{
+				"internalType": "bool",
+				"name": "access",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",

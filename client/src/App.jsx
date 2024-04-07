@@ -6,6 +6,7 @@ import Connect from './pages/Connect';
 import Dashboard from "./pages/Dashboard";
 import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
 import Register from './components/Register';
+import Metaverse from './pages/Metaverse';
 
 const App = () => {
 
@@ -27,6 +28,8 @@ const App = () => {
       <Route path="/connect" element={<Connect saveState={saveState}/>}/>
       <Route path="/register" element={<Register state={state}/>}/>
       <Route path="/dashboard" element={<Dashboard state={state} saveState={saveState}/> }/>
+      <Route path="/metaverse" element={<Metaverse state={state} saveState={saveState}/> }/>
+
   </Routes>
 
     </Router>

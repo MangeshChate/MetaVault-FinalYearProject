@@ -5,7 +5,7 @@ import { ArrowBack, Wallet } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
 import {ethers} from "ethers";
 import axios from 'axios'
-
+import Swal from 'sweetalert2'
 const randomPrompts = [
   "Design a Minecraft character with a blocky body and a determined expression, holding a pickaxe.",
   "Create a Minecraft miner with a helmet and a backpack, exploring deep caves for valuable resources.",
@@ -117,7 +117,11 @@ const Register = ({ state }) => {
       const tx = await contract.addUser(username, email, phoneNumber, address, imgHash, about, false);
       await tx.wait();
   
-      alert('User registered successfully!');
+      Swal.fire({
+        title: "User Registered Successfully !",
+        text: "let's Start MetaVault Journey",
+        icon: "success"
+      });
     }   catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {

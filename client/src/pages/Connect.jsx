@@ -15,36 +15,36 @@ const Connect = ({saveState}) => {
   const setWallet = async () => {
     if (window.ethereum) {
       try {
-        
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-        
         const provider = new ethers.providers.Web3Provider(window.ethereum);
-
         const signer = provider.getSigner();
-
-        
         const address = await signer.getAddress();
         setAccount(address);
-        console.log(address)
-
-        setConnected(true);
-
-        const messageToSign = "Welcome To MetaVault , Let's SignIn Quickly !";
-        const signature = await signer.signMessage(messageToSign);
-        setMessage(messageToSign);
-        setSignature(signature);
-
-
-        const contractAddress = "0x63C7F8B054d51c9968549e86BaDcb43c0097ed81";
-        const abi = ABI;
-
-        const contract = new ethers.Contract(contractAddress , abi ,signer);
-
-        saveState({account:account , contract:contract});
-        setContract(contract);
-
-
+        console.log(address);
+  
+        const contractAddress = "0x697245d7014276422894bEb8d26793Dd6b78296F"; // Replace with your actual contract address
+        const abi = ABI; // Your contract ABI
+  
+        const contract = new ethers.Contract(contractAddress, abi, signer);
+  
+        // Check if the user is already registered
+        const isRegistered = await contract.isUserRegistered(address);
+        
+        if (isRegistered) {
+          // If registered, redirect the user to a specific page
+          // Replace '/dashboard' with the desired URL
+          window.location.href = '/dashboard';
+        } else {
+          // If not registered, continue with your current logic
+          setConnected(true);
+  
+          const messageToSign = "Welcome To MetaVault, Let's SignIn Quickly!";
+          const signature = await signer.signMessage(messageToSign);
+          setMessage(messageToSign);
+          setSignature(signature);
+  
+          saveState({ account: address, contract: contract });
+          setContract(contract);
+        }
       } catch (error) {
         console.error('Error connecting with wallet:', error);
         setConnected(false);
@@ -54,6 +54,7 @@ const Connect = ({saveState}) => {
       setConnected(false);
     }
   };
+  
 
   return (
     <div className='h-[100vh] relative ' style={{ backgroundImage: "url('https://img.freepik.com/premium-photo/megaoplis-stands-near-river-sunset-3d-illustration_76964-4973.jpg')", backgroundSize: "cover" }}>

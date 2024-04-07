@@ -5,32 +5,31 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 
 // Placeholder image URL
-const defaultImage = "https://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-vlc-icon.png";
+const defaultImage = "https://via.placeholder.com/250";
 
-const Video = ({ title, videoUrl, onClick }) => {
+// Images component
+const Images = ({ title, onClick, imageUrl }) => {
   return (
-    <div className='w-[300px] white-blur-glass rounded-xl cursor-pointer' onClick={onClick}>
+    <div className='w-[300px]  white-blur-glass rounded-xl cursor-pointer' onClick={onClick}>
       <div className='flex justify-center'>
-        <img src={defaultImage} alt="" className='w-[250px]' />
+        <img src={imageUrl} alt="Image document" className='rounded-[15px] w-full h-full' />
       </div>
-      <div className='flex justify-center items-center'>
+      <div className='flex   justify-center items-center'>
         <span className='font-bold font-mono p-2' style={{ maxWidth: '100%' }}>{title}</span>
       </div>
     </div>
   );
 };
 
-const Videos = ({ contract }) => {
-  const [videos, setVideos] = useState([]);
+// MyImages component
+const MyImages = ({ contract }) => {
+  const [images, setImages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [title, setTitle] = useState('');
-  const [uploadingVideo, setUploadingVideo] = useState(false);
-  const [uploadingSelectedVideo, setUploadingSelectedVideo] = useState(false);
-  const [showVideoPopup, setShowVideoPopup] = useState(false); // State to control the video popup
-
+  const [uploadingImage, setUploadingImage] = useState(false);
   const account = localStorage.getItem('account');
-  const fileType = "video";
+  const fileType = "image";
   const description = "no description";
 
   useEffect(() => {
@@ -38,8 +37,8 @@ const Videos = ({ contract }) => {
       try {
         const data = await contract.getUserFiles(account);
         console.log("Received data:", data);
-        const videoDocuments = data.filter(document => document.file_type === 'video');
-        setVideos(videoDocuments);
+        const imageDocuments = data.filter(document => document.file_type === 'image');
+        setImages(imageDocuments);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -50,12 +49,12 @@ const Videos = ({ contract }) => {
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
-    setSelectedVideo(null);
+    setSelectedImage(null);
   };
 
-  const handleVideoChange = (event) => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
-    setSelectedVideo(file);
+    setSelectedImage(file);
   };
 
   const handleSubmit = async (e) => {
@@ -65,21 +64,21 @@ const Videos = ({ contract }) => {
       return;
     }
 
-    if (!title || !selectedVideo) {
+    if (!title || !selectedImage) {
       alert("Please fill out all fields.");
       return;
     }
 
-    if (!selectedVideo.type.startsWith('video/')) {
-      alert("Please select a video file.");
+    if (!selectedImage.type.startsWith('image/')) {
+      alert("Please select an image file.");
       return;
     }
 
-    setUploadingSelectedVideo(true);
+    setUploadingImage(true);
 
     try {
       const formData = new FormData();
-      formData.append('file', selectedVideo);
+      formData.append('file', selectedImage);
 
       const resFile = await axios.post(
         'https://api.pinata.cloud/pinning/pinFileToIPFS',
@@ -93,53 +92,49 @@ const Videos = ({ contract }) => {
         }
       );
 
-      const videoHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+      const imgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       const timestamp = Math.floor(Date.now() / 1000);
 
-      const tx = await contract.addUserImage(account, title, videoHash, fileType, timestamp, description);
+      const tx = await contract.addUserImage(account, title, imgHash, fileType, timestamp, description);
       await tx.wait();
       Swal.fire({
-        title: "Video Uploaded Successfully !",
-        text: "You Uploaded Video On Blockchain Successfully",
+        title: "Image Uploaded Successfully !",
+        text: "You Uploaded Image On Blockchain Successfully",
         icon: "success"
       });
-      setUploadingSelectedVideo(false);
+      setUploadingImage(false)
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {
         alert(`Error: ${error.response.data.error}`);
-        setUploadingSelectedVideo(false);
+        setUploadingImage(false);
       } else {
         alert('Transaction failed. Please check the console for details.');
-        setUploadingSelectedVideo(false);
+        setUploadingImage(false);
       }
     }
   }
 
-  const handleVideoClick = (video) => {
-    setSelectedVideo(video);
-    setShowVideoPopup(true); // Show the video popup
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
   };
 
   return (
     <div className='relative h-[92vh] overflow-y-scroll'>
       <div className='grid grid-cols-5 p-5 gap-5'>
-        {videos.map((video, index) => (
-          <Video key={index} title={video.file_name} videoUrl={video.file_url} onClick={() => handleVideoClick(video)} />
+        {images.map((image, index) => (
+          <Images key={index} title={image.file_name} imageUrl={image.file_url} onClick={() => handleImageClick(image)} />
         ))}
       </div>
       <span className='absolute bottom-10 right-10 p-3 white-blur-glass rounded-full cursor-pointer' onClick={toggleModal}>
         <Add className='font-bold text-4xl' />
       </span>
 
-      {showVideoPopup && (
-        <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75'>
+      {selectedImage && (
+        <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75' onClick={() => setSelectedImage(null)}>
           <div className='w-[80%] h-[90%]'>
-            <video controls className='w-full h-full'>
-              <source src={selectedVideo.file_url} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <button className='absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-md' onClick={() => setShowVideoPopup(false)}>
+            <iframe src={selectedImage.file_url} title={selectedImage.file_name} className='w-full h-full rounded-2xl' />
+            <button className='absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-md' onClick={() => setSelectedImage(null)}>
               Close
             </button>
           </div>
@@ -155,33 +150,34 @@ const Videos = ({ contract }) => {
                   <Close />
                 </button>
               </div>
-              <span className='flex justify-center font-bold   text-3xl w-full'>Upload Video</span>
+              <span className='flex justify-center font-bold   text-3xl w-full'>Upload Image</span>
 
               <div className='p-5 mt-5'>
                 <form onSubmit={handleSubmit}>
                   <div className='flex flex-col gap-3'>
                     <span className=' font-bold '>Enter Title :</span>
-                    <input type="text" placeholder='Video Name ...' className='form-control blue-blur-glass text-white border-0 p-4 text-lg' onChange={(e) => setTitle(e.target.value)} required />
+                    <input type="text" placeholder='Image Name ...' className='form-control blue-blur-glass text-white border-0 p-4 text-lg' onChange={(e) => setTitle(e.target.value)} required />
                   </div>
                   <div className='flex flex-col gap-3 mt-4 justify-between items-between'>
                     <div className=''>
-                      <span className=' font-bold '>Choose video :</span>
-                      <label htmlFor="video-upload" className="cursor-pointer flex items-center justify-center w-full px-4 py-20  blue-blur-glass rounded-xl border-2 border-white border-dashed">
+                      <span className=' font-bold '>Choose image :</span>
+                      <label htmlFor="image-upload" className="cursor-pointer flex items-center justify-center w-full px-4 py-20  blue-blur-glass rounded-xl border-2 border-white border-dashed">
                         <span className="leading-normal  border-none font-bold text-lg">
-                          {selectedVideo ? (
+                          {selectedImage ? (
                             <div className='flex justify-center flex-col items-center'>
-                              <video controls className='w-[300px]' src={URL.createObjectURL(selectedVideo)}></video>
+                              <img src={URL.createObjectURL(selectedImage)} alt="" className='w-[100px] ' />
                               <span>
-                                {selectedVideo.name}
+                                {selectedImage.name}
                               </span>
                             </div>
-                          ) : "Select Video or Drop Video"}
+                          ) : "Select Image or Drop Image"}
                         </span>
-                        <input id="video-upload" type="file" className="hidden" accept="video/*" onChange={handleVideoChange} required />
-                      </label>
+                        <input id="image-upload" type="file" className="hidden" accept="image/*" onChange={handleImageChange} required />
+                     
+                        </label>
                     </div>
                     <button type="submit" className='btn bg-blue-600 mt-5 rounded-full font-bold'>
-                      {uploadingVideo ? (<CircularProgress className='text-white' />) : "Upload Video"}
+                      {uploadingImage ? (<CircularProgress className='text-white' />) : "Upload Image"}
                     </button>
                   </div>
                 </form>
@@ -193,4 +189,5 @@ const Videos = ({ contract }) => {
     </div>
   );
 };
-export default Videos;
+
+export default MyImages;

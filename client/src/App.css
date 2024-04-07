@@ -29,6 +29,20 @@
   animation: glow 1.5s infinite alternate;
 }
 
+.neon-bg {
+  background: linear-gradient(90deg, #ff6fd8, #3813e0, #17c5ea, #14b3d1);
+  background-size: 400% 400%;
+  animation: neonAnimation 4s linear infinite;
+  color: #fff;
+}
 
-
+@keyframes neonAnimation {
+  0%,
+  100% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
 
