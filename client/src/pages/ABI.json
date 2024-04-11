@@ -696,6 +696,27 @@
 	},
 	{
 		"inputs": [],
+		"name": "mintTokensWithSubscription_0_0001Ether",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "mintTokensWithSubscription_0_001Ether",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "mintTokensWithSubscription_0_01Ether",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "name",
 		"outputs": [
 			{

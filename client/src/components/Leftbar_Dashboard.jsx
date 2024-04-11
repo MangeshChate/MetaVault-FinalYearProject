@@ -52,18 +52,26 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
             <span >My Profile</span>
           </li>
           
-          <hr className='mt-5' />
+         
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('experiences')}>
             <span className=''>
               <img src="https://cdn-icons-png.flaticon.com/512/11632/11632430.png" className='w-[50px]' alt="" />
             </span>
             <span >Experiences</span>
           </li>
+
           <hr className='mt-5' />
+          
         </ul>
+
+        <div className='flex   items-center gap-5 p-5 rounded-xl  logo-font text-xl white-blur-glass font-bold mt-5 w-full cursor-pointer justify-center' onClick={() => onItemClick('buycoin')}>
+    
+            <span className='logo-font'>Buy MapCoin</span>
+          </div>
       </div>
     </div>
   );
 };
 
 export default Leftbar_Dashboard;
+// https://preview.redd.it/i-made-a-custom-op-discord-icon-v0-oby6d0ersbs81.png?auto=webp&s=0101218530a2068771a744d6523f09c29df76e90

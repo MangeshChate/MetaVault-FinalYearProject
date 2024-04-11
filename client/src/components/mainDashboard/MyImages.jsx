@@ -95,7 +95,7 @@ const MyImages = ({ contract }) => {
       const imgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       const timestamp = Math.floor(Date.now() / 1000);
 
-      const tx = await contract.addUserImage(account, title, imgHash, fileType, timestamp, description);
+      const tx = await contract.addUserImage( title, imgHash, fileType, timestamp, description);
       await tx.wait();
       Swal.fire({
         title: "Image Uploaded Successfully !",

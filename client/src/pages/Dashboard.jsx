@@ -24,6 +24,7 @@ const Dashboard = ({ state }) => {
     const [userData , setUserData] = useState([]);
 
 
+
     const [steps, setSteps] = useState([
         {
           target: '.firstStep',
@@ -54,7 +55,7 @@ const Dashboard = ({ state }) => {
                 
                 setConnected(true);
     
-                const contractAddress = "0x2Bd4a6336f06D9aA1Cd8CdDff323F5729b7E64f0";
+                const contractAddress = "0x3D09A65AD6343b0197530377402E36fCd1649848";
                 const abi = ABI;
                 const contract = new ethers.Contract(contractAddress, abi, signer);
                 setContract(contract);
@@ -100,6 +101,13 @@ const Dashboard = ({ state }) => {
                 <div className='flex gap-5  items-center'>
                     <div className='border p-2 rounded-full font-mono border-pink-500 '>
                         {account}
+                    </div>
+
+                    <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full neon-bg text-xl' >
+                        <img src="https://preview.redd.it/i-made-a-custom-op-discord-icon-v0-oby6d0ersbs81.png?auto=webp&s=0101218530a2068771a744d6523f09c29df76e90" alt="" className='w-[50px] h-[50px] rounded-full' />
+                        <span className='logo-font font-bold'>{userData.tokenBalance?.toString()} MAP</span>
+
+
                     </div>
 
                     <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full' >

@@ -1,15 +1,17 @@
 import React from 'react';
 import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 
-const data = [
-    { type: 'Document', count: 20 },
-    { type: 'Image', count: 15 },
-    { type: 'Audio', count: 10 },
-    // Add more data...
-];
 
 
-const FileTypeDistributionPieChart = () => {
+const FileTypeDistributionPieChart = ({i ,f,v}) => {
+
+    const data = [
+        { type: 'Document', count: f },
+        { type: 'Image', count: i },
+        { type: 'Video', count: v },
+        
+    ];
+    
     const DARK_COLORS = ['#4472CA', '#6CB2EB', '#5B8FF9', '#6986F3', '#9FB3F6', '#769ECB', '#78B1FF', '#A3B9FF'];
     return (
       

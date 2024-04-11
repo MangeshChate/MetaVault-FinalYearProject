@@ -1,23 +1,34 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.24;
+pragma solidity ^0.8.20;
 
-/**
-    project name: Evault System
-    Description:  Creating a secure e-vault system on an Ethereum blockchain.
-    0x697245d7014276422894bEb8d26793Dd6b78296F
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+
+
+/*
+    Project Name : E-Vault
+    Project Description : In This Smart Contract user Able To Register , POST and GET Files 
+    Currency_Name : MapCoin (MAP)
+    Deployed_Hash : 0x3D09A65AD6343b0197530377402E36fCd1649848
+
 */
 
-contract VaultSystem {
+contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
+    uint256 public constant INITIAL_SUPPLY = 300;
+    uint256 public constant INITIAL_TOKEN_BALANCE = 30;
+    uint256 public constant TOKEN_DEDUCTED = 5;
+    address payable ownerAddress = payable(owner());
 
-    // Structures
     struct UserInfo {
         string username;
         string email;
         string phoneNumber;
-        address account;
         string profileImgUrl;
         string about;
         bool access;
+        uint256 tokenBalance;
     }
 
     struct FileMetaData {
@@ -28,14 +39,14 @@ contract VaultSystem {
         string description;
     }
 
-    // Mappings
     mapping(address => UserInfo) public users;
-    mapping(address => FileMetaData[]) userImages;
+    mapping(address => FileMetaData[]) public userImages;
 
-    // Functions
+    event TokensMinted(address indexed user, uint256 amount);
+    event TokensBurned(address indexed user, uint256 amount);
 
-    function isUserRegistered(address _userAddress) public view returns (bool) {
-        return users[_userAddress].account != address(0);
+    constructor() ERC20("MapCoin", "MAP") ERC20Permit("MapCoin") {
+        _mint(msg.sender, INITIAL_SUPPLY);
     }
 
     function addUser(
@@ -46,11 +57,10 @@ contract VaultSystem {
         string memory _profileImgUrl,
         string memory _about,
         bool _access
-    ) public {
+    ) external {
         require(!isUserRegistered(_account), "User is already registered");
         UserInfo memory newUser;
         newUser.username = _username;
-        newUser.account = _account;
         newUser.profileImgUrl = _profileImgUrl;
         newUser.about = _about;
         newUser.access = _access;
@@ -58,35 +68,53 @@ contract VaultSystem {
         newUser.phoneNumber = _phoneNumber;
 
         users[_account] = newUser;
+
+        mintTokensForUser(_account, INITIAL_TOKEN_BALANCE);
     }
 
     function addUserImage(
-        address _account,
         string memory _file_name,
         string memory _file_url,
         string memory _file_type,
         uint256 _upload_timestamp,
         string memory _description
-    ) public {
-        userImages[_account].push(FileMetaData(
+    ) external {
+        UserInfo storage user = users[msg.sender];
+        require(user.tokenBalance >= TOKEN_DEDUCTED, "Insufficient balance");
+        
+        userImages[msg.sender].push(FileMetaData(
             _file_name,
             _file_url,
             _file_type,
             _upload_timestamp,
             _description
         ));
+
+        _burn(msg.sender, TOKEN_DEDUCTED);
+        user.tokenBalance -= TOKEN_DEDUCTED;
+        emit TokensBurned(msg.sender, TOKEN_DEDUCTED);
     }
 
-    function getUser(address _userAddress) public view returns (
+    function mintTokensForUser(address _user, uint256 _amount) internal {
+        _mint(_user, _amount);
+        users[_user].tokenBalance += _amount;
+        emit TokensMinted(_user, _amount);
+    }
+
+    function isUserRegistered(address _userAddress) public view returns (bool) {
+        return users[_userAddress].tokenBalance != 0;
+    }
+
+    function getUser(address _userAddress) external view returns (
         string memory username,
         string memory profileImgUrl,
         string memory email,
         string memory phoneNumber,
         string memory about,
-        bool access
+        bool access,
+        uint256 tokenBalance
     ) {
         UserInfo memory user = users[_userAddress];
-        require(user.account != address(0), "User not found");
 
         return (
             user.username,
@@ -94,27 +122,50 @@ contract VaultSystem {
             user.email,
             user.phoneNumber,
             user.about,
-            user.access
+            user.access,
+            user.tokenBalance
         );
     }
 
-    function getUserFiles(address _userAddress) public view returns (FileMetaData[] memory){
+    function getUserFiles(address _userAddress) external view returns (FileMetaData[] memory) {
         return userImages[_userAddress];
     }
 
     function deleteFileByAttributes(
-        address _userAddress,
         string memory _file_name,
         string memory _file_url
-    ) public {
-        FileMetaData[] storage userFiles = userImages[_userAddress];
+    ) external {
+        FileMetaData[] storage userFiles = userImages[msg.sender];
         for (uint256 i = 0; i < userFiles.length; i++) {
             if (keccak256(bytes(userFiles[i].file_name)) == keccak256(bytes(_file_name)) &&
                 keccak256(bytes(userFiles[i].file_url)) == keccak256(bytes(_file_url))) {
-                delete userImages[_userAddress][i];
+                delete userImages[msg.sender][i];
                 return;
             }
         }
         revert("File not found");
     }
+
+    //Payment Integration 
+       function mintTokensWithSubscription_0_0001Ether() external payable {
+        require(msg.value == 100000000000000, "Ether amount must be 0.0001");
+        address sender = msg.sender;
+        ownerAddress.transfer(msg.value); 
+        mintTokensForUser(sender, 30);
+    }
+
+    function mintTokensWithSubscription_0_001Ether() external payable {
+        require(msg.value == 1000000000000000, "Ether amount must be 0.001");
+        address sender = msg.sender;
+        ownerAddress.transfer(msg.value); 
+        mintTokensForUser(sender, 40);
+    }
+
+    function mintTokensWithSubscription_0_01Ether() external payable {
+        require(msg.value == 10000000000000000, "Ether amount must be 0.01");
+        address sender = msg.sender;
+        ownerAddress.transfer(msg.value); 
+        mintTokensForUser(sender, 100);
+    }
+
 }

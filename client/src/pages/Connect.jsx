@@ -21,7 +21,7 @@ const Connect = ({saveState}) => {
         setAccount(address);
         console.log(address);
   
-        const contractAddress = "0x2Bd4a6336f06D9aA1Cd8CdDff323F5729b7E64f0"; // Replace with your actual contract address
+        const contractAddress = "0x3D09A65AD6343b0197530377402E36fCd1649848"; // Replace with your actual contract address
         const abi = ABI; // Your contract ABI
   
         const contract = new ethers.Contract(contractAddress, abi, signer);

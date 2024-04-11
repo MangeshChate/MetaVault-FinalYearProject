@@ -9,6 +9,7 @@ import MyImages from './mainDashboard/MyImages'
 import Videos from './mainDashboard/Videos'
 import Experiences from './mainDashboard/Experiences'
 import Profile from './mainDashboard/Profile'
+import BuyCoin from './mainDashboard/BuyCoin'
 
 
 const Main_Dashboard = ({selectedComponent  , contract }) => {
@@ -24,6 +25,8 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
     {selectedComponent === 'TalkWithAI' && <ChatAi />}
     {selectedComponent === 'experiences' && <Experiences contract={contract}/>}
     {selectedComponent === 'profile' && <Profile contract={contract}/>}
+    {selectedComponent === 'buycoin' && <BuyCoin contract={contract}/>}
+
 
 
 

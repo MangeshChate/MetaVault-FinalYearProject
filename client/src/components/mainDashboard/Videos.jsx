@@ -96,7 +96,7 @@ const Videos = ({ contract }) => {
       const videoHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       const timestamp = Math.floor(Date.now() / 1000);
 
-      const tx = await contract.addUserImage(account, title, videoHash, fileType, timestamp, description);
+      const tx = await contract.addUserImage( title, videoHash, fileType, timestamp, description);
       await tx.wait();
       Swal.fire({
         title: "Video Uploaded Successfully !",

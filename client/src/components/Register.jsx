@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import { ArrowBack, Wallet } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import axios from 'axios'
 import Swal from 'sweetalert2'
 const randomPrompts = [
@@ -34,7 +34,7 @@ async function query(data) {
 
 const Register = ({ state }) => {
 
-  
+
 
 
   const [isNext, setNext] = useState(true);
@@ -68,37 +68,44 @@ const Register = ({ state }) => {
     const randomIndex = Math.floor(Math.random() * randomPrompts.length);
     setPrompt(randomPrompts[randomIndex]);
   };
-
+  
+  const handleImageChange = (file) => {
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImageSrc(imageUrl);
+    }
+  };
+  
   const finalSubmit = async () => {
     const { contract } = state;
-  
+
     if (!contract) {
       alert("Contract not found. Please make sure you are connected to the blockchain.");
       return;
     }
-  
+
     if (!username || !phoneNumber || !email || !about || !imageSrc) {
       alert("Please fill out all fields.");
       return;
     }
-  
+
     setUploadingImage(true);
-  
+
     try {
       // Request user account access
       await window.ethereum.request({ method: 'eth_requestAccounts' });
-  
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
-  
+
       const response = await fetch(imageSrc);
       const blob = await response.blob();
       const file = new File([blob], "avatar.png", { type: "image/png" });
-  
+
       const formData = new FormData();
       formData.append('file', file);
-  
+
       const resFile = await axios.post(
         'https://api.pinata.cloud/pinning/pinFileToIPFS',
         formData,
@@ -110,19 +117,19 @@ const Register = ({ state }) => {
           },
         }
       );
-  
+
       const imgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-  
+
       // Call smart contract function to add user
       const tx = await contract.addUser(username, email, phoneNumber, address, imgHash, about, false);
       await tx.wait();
-  
+
       Swal.fire({
         title: "User Registered Successfully !",
         text: "let's Start MetaVault Journey",
         icon: "success"
       });
-    }   catch (error) {
+    } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {
         alert(`Error: ${error.response.data.error}`);
@@ -142,10 +149,10 @@ const Register = ({ state }) => {
 
       }
     }
-    
+
   }
-  
-  
+
+
 
   return (
     <div className='h-[100vh] relative ' style={{ backgroundImage: "url('https://img.freepik.com/premium-photo/megaoplis-stands-near-river-sunset-3d-illustration_76964-4973.jpg')", backgroundSize: "cover" }}>
@@ -198,7 +205,7 @@ const Register = ({ state }) => {
                   <div className='flex flex-col gap-4  justify-center'>
                     <span className='text-3xl font-bold '>Let's Genrate Your Avatar</span>
                     <div className='flex gap-4  mb-4'>
-                      <div className=' blue-blur-glass border-[3px] border-white rounded-lg w-[400px] h-[400px] object-contain i-glow'>
+                      <div className='blue-blur-glass border-[3px] border-white rounded-lg w-[400px] h-[400px] object-contain i-glow'>
                         {isLoading && <div className='w-full h-full flex justify-center items-center'>
                           <CircularProgress />
                         </div>}
@@ -214,16 +221,26 @@ const Register = ({ state }) => {
                           Generate Random Prompt
                         </span>
 
+                       
+
                         <button type='submit' className='rounded-full hover:bg-blue-800 justify-center mt-4 w-full btn flex bg-blue-500 gap-3'>
                           <Image />
-                          <span className='font-bold'>Genrate Avatar</span>
+                          <span className='font-bold'>Generate Avatar</span>
                         </button>
+
+                         {/* Add the input element for selecting a file */}
+                         <input type="file" accept="image/*" onChange={(e) => handleImageChange(e.target.files[0])} className='hidden' id="avatarInput" />
+                        <label htmlFor="avatarInput" className='rounded-full hover:bg-blue-800 justify-center mt-4 w-full btn flex bg-blue-500 gap-3 cursor-pointer'>
+                          <Image />
+                          <span className='font-bold'>Select Image</span>
+                        </label>
                       </form>
                     </div>
+
                     <div className='flex justify-between'>
                       <button className='btn bg-pink-600 rounded-full font-bold text-lg' onClick={() => setNext(true)}>previous</button>
                       <button className='btn bg-pink-600 text-white w-[200px] font-bold text-lg rounded-full' onClick={finalSubmit}>
-                        {uploadingImage ? <CircularProgress/> : "Start Journey"  }
+                        {uploadingImage ? <CircularProgress /> : "Start Journey"}
                       </button>
                     </div>
                   </div>
