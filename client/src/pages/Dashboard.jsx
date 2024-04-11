@@ -3,12 +3,37 @@ import Leftbar_Dashboard from '../components/Leftbar_Dashboard';
 import Main_Dashboard from '../components/Main_Dashboard';
 import { ethers } from 'ethers';
 import ABI from './ABI.json';
+import Joyride from 'react-joyride';
+
+const steps = [
+    {
+      target: '.my-first-step',
+      content: 'This is my awesome feature!',
+    },
+    {
+      target: '.my-other-step',
+      content: 'This another awesome feature!',
+    },
+  ];
+
 const Dashboard = ({ state }) => {
     const [selectedComponent, setSelectedComponent] = useState('');
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState('');
     const [contract, setContract] = useState(null);
     const [userData , setUserData] = useState([]);
+
+
+    const [steps, setSteps] = useState([
+        {
+          target: '.firstStep',
+          content: 'This is a super awesome feature!',
+        },
+        {
+          target: '.secondStep',
+          content: "Everyone's learning React Joyride!",
+        },
+      ]);
 
 
 
@@ -29,7 +54,7 @@ const Dashboard = ({ state }) => {
                 
                 setConnected(true);
     
-                const contractAddress = "0x697245d7014276422894bEb8d26793Dd6b78296F";
+                const contractAddress = "0x2Bd4a6336f06D9aA1Cd8CdDff323F5729b7E64f0";
                 const abi = ABI;
                 const contract = new ethers.Contract(contractAddress, abi, signer);
                 setContract(contract);
@@ -67,12 +92,13 @@ const Dashboard = ({ state }) => {
 
     return (
         <div className=''>
+             <Joyride steps={steps} />
             <div className='bg-[#252525] p-3 text-white flex items-center justify-between'>
                 <div>
                     <span className='logo-font text-3xl'>Metavault</span>
                 </div>
                 <div className='flex gap-5  items-center'>
-                    <div className='border p-2 rounded-full font-mono border-pink-500'>
+                    <div className='border p-2 rounded-full font-mono border-pink-500 '>
                         {account}
                     </div>
 
