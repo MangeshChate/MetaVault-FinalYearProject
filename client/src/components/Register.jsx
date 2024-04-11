@@ -129,6 +129,7 @@ const Register = ({ state }) => {
         text: "let's Start MetaVault Journey",
         icon: "success"
       });
+      window.location.href = '/dashboard';
     } catch (error) {
       console.error('Error:', error);
       if (error.response && error.response.data && error.response.data.error) {

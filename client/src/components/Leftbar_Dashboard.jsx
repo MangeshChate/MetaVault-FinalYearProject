@@ -7,7 +7,7 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
   return (
     <div className='h-[92vh]   p-5 bg-[#252525] text-light'>
       <div className='flex mt-5'>
-        <div className='btn  p-3 px-8 flex rounded-full border-2 border-white' onClick={() => onItemClick('New')}>
+        <div className='btn  p-3 px-8 flex rounded-full border-2 border-white' >
           <span className='font-bold'> <Add /></span>
           <span className='text-xl ms-5 font-bold'>New</span>
         </div>
