@@ -63,6 +63,7 @@ const positions = [
 
 
 const Metaverse = () => {
+  const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
   const [selectedComponent, setSelectedComponent] = useState('');
   const [connected, setConnected] = useState(false);
   const [account, setAccount] = useState('');
@@ -84,7 +85,8 @@ const Metaverse = () => {
 
         setConnected(true);
 
-        const contractAddress = "0x3D09A65AD6343b0197530377402E36fCd1649848";
+        const contractAddress = contract_address;
+
         const abi = ABI;
         const contract = new ethers.Contract(contractAddress, abi, signer);
         setContract(contract);

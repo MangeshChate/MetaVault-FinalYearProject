@@ -1,25 +1,32 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.19;
 
-// import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-// import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+contract Ownable {
+    address public owner;
 
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
-/*
-    Project Name : E-Vault
-    Project Description : In This Smart Contract user Able To Register , POST and GET Files 
-    Currency_Name : MapCoin (MAP)
-    Deployed_Hash : 0x3D09A65AD6343b0197530377402E36fCd1649848
+    constructor() {
+        owner = msg.sender;
+    }
 
-*/
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Ownable: caller is not the owner");
+        _;
+    }
 
-contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
-    uint256 public constant INITIAL_SUPPLY = 300;
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+}
+
+contract MapCoinVault is Ownable {
+    uint256 public constant INITIAL_SUPPLY = 500;
     uint256 public constant INITIAL_TOKEN_BALANCE = 30;
     uint256 public constant TOKEN_DEDUCTED = 5;
-    address payable ownerAddress = payable(owner());
+    address payable ownerAddress;
 
     struct UserInfo {
         string username;
@@ -45,8 +52,25 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
     event TokensMinted(address indexed user, uint256 amount);
     event TokensBurned(address indexed user, uint256 amount);
 
-    constructor() ERC20("MapCoin", "MAP") ERC20Permit("MapCoin") {
-        _mint(msg.sender, INITIAL_SUPPLY);
+    string public name = "MapCoin";
+    string public symbol = "MAP";
+
+    constructor() {
+        _mint(owner, INITIAL_SUPPLY);
+        ownerAddress = payable(msg.sender);
+    }
+
+    function _mint(address _account, uint256 _amount) internal {
+        require(_account != address(0), "ERC20: mint to the zero address");
+        users[_account].tokenBalance += _amount;
+        emit TokensMinted(_account, _amount);
+    }
+
+    function _burn(address _account, uint256 _amount) internal {
+        require(_account != address(0), "ERC20: burn from the zero address");
+        require(users[_account].tokenBalance >= _amount, "ERC20: burn amount exceeds balance");
+        users[_account].tokenBalance -= _amount;
+        emit TokensBurned(_account, _amount);
     }
 
     function addUser(
@@ -81,7 +105,7 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
     ) external {
         UserInfo storage user = users[msg.sender];
         require(user.tokenBalance >= TOKEN_DEDUCTED, "Insufficient balance");
-        
+
         userImages[msg.sender].push(FileMetaData(
             _file_name,
             _file_url,
@@ -91,19 +115,17 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
         ));
 
         _burn(msg.sender, TOKEN_DEDUCTED);
-        user.tokenBalance -= TOKEN_DEDUCTED;
-        emit TokensBurned(msg.sender, TOKEN_DEDUCTED);
     }
 
     function mintTokensForUser(address _user, uint256 _amount) internal {
         _mint(_user, _amount);
-        users[_user].tokenBalance += _amount;
-        emit TokensMinted(_user, _amount);
     }
 
     function isUserRegistered(address _userAddress) public view returns (bool) {
-        return users[_userAddress].tokenBalance != 0;
-    }
+    UserInfo storage user = users[_userAddress];
+    return bytes(user.username).length > 0; 
+}
+
 
     function getUser(address _userAddress) external view returns (
         string memory username,
@@ -137,8 +159,10 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
     ) external {
         FileMetaData[] storage userFiles = userImages[msg.sender];
         for (uint256 i = 0; i < userFiles.length; i++) {
-            if (keccak256(bytes(userFiles[i].file_name)) == keccak256(bytes(_file_name)) &&
-                keccak256(bytes(userFiles[i].file_url)) == keccak256(bytes(_file_url))) {
+            if (
+                keccak256(bytes(userFiles[i].file_name)) == keccak256(bytes(_file_name)) &&
+                keccak256(bytes(userFiles[i].file_url)) == keccak256(bytes(_file_url))
+            ) {
                 delete userImages[msg.sender][i];
                 return;
             }
@@ -146,8 +170,8 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
         revert("File not found");
     }
 
-    //Payment Integration 
-       function mintTokensWithSubscription_0_0001Ether() external payable {
+    // Payment Integration 
+    function mintTokensWithSubscription_0_0001Ether() external payable {
         require(msg.value == 100000000000000, "Ether amount must be 0.0001");
         address sender = msg.sender;
         ownerAddress.transfer(msg.value); 
@@ -167,5 +191,4 @@ contract MapCoinVault is ERC20, ERC20Permit, Ownable(msg.sender) {
         ownerAddress.transfer(msg.value); 
         mintTokensForUser(sender, 100);
     }
-
 }

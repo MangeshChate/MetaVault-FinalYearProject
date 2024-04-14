@@ -17,12 +17,15 @@ const steps = [
   ];
 
 const Dashboard = ({ state }) => {
+    const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
+
+
+
     const [selectedComponent, setSelectedComponent] = useState('');
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState('');
     const [contract, setContract] = useState(null);
     const [userData , setUserData] = useState([]);
-
 
 
     const [steps, setSteps] = useState([
@@ -36,6 +39,7 @@ const Dashboard = ({ state }) => {
         },
       ]);
 
+    
 
 
     const handleNavbarItemClick = (componentName) => {
@@ -55,7 +59,7 @@ const Dashboard = ({ state }) => {
                 
                 setConnected(true);
     
-                const contractAddress = "0x3D09A65AD6343b0197530377402E36fCd1649848";
+                const contractAddress = contract_address;
                 const abi = ABI;
                 const contract = new ethers.Contract(contractAddress, abi, signer);
                 setContract(contract);
@@ -101,13 +105,6 @@ const Dashboard = ({ state }) => {
                 <div className='flex gap-5  items-center'>
                     <div className='border p-2 rounded-full font-mono border-pink-500 '>
                         {account}
-                    </div>
-
-                    <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full neon-bg text-xl' >
-                        <img src="https://preview.redd.it/i-made-a-custom-op-discord-icon-v0-oby6d0ersbs81.png?auto=webp&s=0101218530a2068771a744d6523f09c29df76e90" alt="" className='w-[50px] h-[50px] rounded-full' />
-                        <span className='logo-font font-bold'>{userData.tokenBalance?.toString()} MAP</span>
-
-
                     </div>
 
                     <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full' >

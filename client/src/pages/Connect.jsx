@@ -5,6 +5,10 @@ import Register from '../components/Register';
 import ABI from "./ABI.json";
 import { Link } from 'react-router-dom';
 const Connect = ({saveState}) => {
+  const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
+console.log(import.meta.env.VITE_CONTRACT_ADDRESS);
+
+
   const [isConnect, setConnected] = useState(false);
   const [account, setAccount] = useState('');
   const [message, setMessage] = useState('');
@@ -16,16 +20,19 @@ const Connect = ({saveState}) => {
     if (window.ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+        // provider = new ethers.BrowserProvider(window.ethereum)
+        // provider = new ethers.JsonRpcProvider()
+        await provider.send('eth_requestAccounts', [0]);
         const signer = provider.getSigner();
         const address = await signer.getAddress();
         setAccount(address);
         console.log(address);
   
-        const contractAddress = "0x3D09A65AD6343b0197530377402E36fCd1649848"; // Replace with your actual contract address
+        const contractAddress = contract_address; // Replace with your actual contract address
         const abi = ABI; // Your contract ABI
   
         const contract = new ethers.Contract(contractAddress, abi, signer);
-  
+          
         // Check if the user is already registered
         const isRegistered = await contract.isUserRegistered(address);
         
