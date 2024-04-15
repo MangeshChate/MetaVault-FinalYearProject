@@ -4,6 +4,7 @@ import { CircularProgress } from "@mui/material";
 import axios from 'axios';
 import Swal from 'sweetalert2'
 
+
 const pdfLogo = "https://upload.wikimedia.org/wikipedia/commons/4/42/Pdf-2127829.png";
 
 // Card component
@@ -130,12 +131,26 @@ const MyFiles = ({ contract }) => {
     setSelectedDocument(document);
   };
 
+  //handle pdf text
+
   return (
     <div className='relative h-[92vh] overflow-y-scroll'>
+       {documents.length === 0 && (
+      <div className="no-videos-message text-center w-full h-full  text-3xl text-gray-500 dark:text-gray-400 flex items-center justify-center ">
+        <span className=''>
+        No files uploaded
+
+        </span>
+      </div>
+    )}
       <div className='grid grid-cols-5 p-5 gap-5'>
-        {documents.map((document, index) => (
-          <Card key={index} type={document.file_type} title={document.file_name} onClick={() => handleCardClick(document)} />
-        ))}
+      {
+        <div className='grid grid-cols-5 p-5 gap-5'>
+          {documents.map((document, index) => (
+            <Card key={index} type={document.file_type} title={document.file_name} onClick={() => handleCardClick(document)} />
+          ))}
+        </div>
+      }
       </div>
       <span className='absolute bottom-10 right-10 p-3 white-blur-glass rounded-full cursor-pointer' onClick={toggleModal}>
         <Add className='font-bold text-4xl' />

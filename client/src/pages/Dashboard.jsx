@@ -106,10 +106,13 @@ const Dashboard = ({ state }) => {
                     <div className='border p-2 rounded-full font-mono border-pink-500 '>
                         {account}
                     </div>
-
+                    <div className='  gap-3 border neon-bg  border-blue-500 cursor-pointer  rounded-full  p-2 flex justify-center items-center' >
+                        <img src="https://preview.redd.it/i-made-a-custom-op-discord-icon-v0-oby6d0ersbs81.png?auto=webp&s=0101218530a2068771a744d6523f09c29df76e90" alt="" className='w-[35px] object-cover' />
+                    <span className="text-xl logo-font">{userData.tokenBalance?.toString()} MAP</span>
+                    </div>
                     <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full' >
-                        <img src={userData[1]} alt="" className='w-[50px] h-[50px] rounded-full' />
-                        <span className='font-mono'>{userData[0]}</span>
+                        <img src={userData[1]} alt="" className='w-[50px] h-[50px] rounded-full object-cover' />
+                        <span className='font-mono text-xl'>{userData[0]}</span>
                     </div>
                 </div>
             </div>

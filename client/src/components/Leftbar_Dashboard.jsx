@@ -47,7 +47,7 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
           <hr className='mt-5' />
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('profile')}>
             <span className=''>
-              <img src={profileImageUrl} className='w-[50px] rounded-full ' alt="" />
+              <img src={profileImageUrl} className='w-[50px] h-[50px] rounded-full object-cover' alt="" />
             </span>
             <span >My Profile</span>
           </li>

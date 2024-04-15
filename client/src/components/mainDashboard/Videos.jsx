@@ -96,7 +96,7 @@ const Videos = ({ contract }) => {
       const videoHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
       const timestamp = Math.floor(Date.now() / 1000);
 
-      const tx = await contract.addUserImage( title, videoHash, fileType, timestamp, description);
+      const tx = await contract.addUserImage(title, videoHash, fileType, timestamp, description);
       await tx.wait();
       Swal.fire({
         title: "Video Uploaded Successfully !",
@@ -123,10 +123,21 @@ const Videos = ({ contract }) => {
 
   return (
     <div className='relative h-[92vh] overflow-y-scroll'>
+      {videos.length === 0 && (
+        <div className="no-videos-message text-center w-full h-full  text-3xl text-gray-500 dark:text-gray-400 flex items-center justify-center ">
+          <span className=''>
+            No videos uploaded
+
+          </span>
+        </div>
+      )}
       <div className='grid grid-cols-5 p-5 gap-5'>
+
+
         {videos.map((video, index) => (
           <Video key={index} title={video.file_name} videoUrl={video.file_url} onClick={() => handleVideoClick(video)} />
         ))}
+
       </div>
       <span className='absolute bottom-10 right-10 p-3 white-blur-glass rounded-full cursor-pointer' onClick={toggleModal}>
         <Add className='font-bold text-4xl' />

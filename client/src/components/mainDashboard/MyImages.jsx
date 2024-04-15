@@ -121,10 +121,20 @@ const MyImages = ({ contract }) => {
 
   return (
     <div className='relative h-[92vh] overflow-y-scroll'>
+       {images.length === 0 && (
+      <div className="no-videos-message text-center w-full h-full  text-3xl text-gray-500 dark:text-gray-400 flex items-center justify-center ">
+        <span className=''>
+        No Images uploaded
+
+        </span>
+      </div>
+    )}
       <div className='grid grid-cols-5 p-5 gap-5'>
-        {images.map((image, index) => (
-          <Images key={index} title={image.file_name} imageUrl={image.file_url} onClick={() => handleImageClick(image)} />
-        ))}
+      {
+      images.map((image, index) => (
+        <Images key={index} title={image.file_name} imageUrl={image.file_url} onClick={() => handleImageClick(image)} />
+      ))
+    }
       </div>
       <span className='absolute bottom-10 right-10 p-3 white-blur-glass rounded-full cursor-pointer' onClick={toggleModal}>
         <Add className='font-bold text-4xl' />
