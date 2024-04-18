@@ -143,15 +143,12 @@ const MyFiles = ({ contract }) => {
         </span>
       </div>
     )}
-      <div className='grid grid-cols-5 p-5 gap-5'>
-      {
-        <div className='grid grid-cols-5 p-5 gap-5'>
-          {documents.map((document, index) => (
-            <Card key={index} type={document.file_type} title={document.file_name} onClick={() => handleCardClick(document)} />
-          ))}
-        </div>
-      }
-      </div>
+     <div className='grid grid-cols-5 p-5 gap-5'>
+  {documents.map((document, index) => (
+    <Card key={index} type={document.file_type} title={document.file_name} onClick={() => handleCardClick(document)} />
+  ))}
+</div>
+
       <span className='absolute bottom-10 right-10 p-3 white-blur-glass rounded-full cursor-pointer' onClick={toggleModal}>
         <Add className='font-bold text-4xl' />
       </span>

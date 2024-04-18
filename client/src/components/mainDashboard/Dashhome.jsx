@@ -97,13 +97,13 @@ const Dashhome = ({ contract }) => {
     }, [account]);
 
     return (
-        <div>
-            <div className='m-5'>
+        <div className='h-[92vh] '>
+            <div className='p-5'>
                 <span className='text-3xl font-bold'>Welcome {userData[0]}</span>
             </div>
             <div>
                 <div className='lg:grid lg:grid-cols-2 lg:p-4 lg:gap-5'>
-                    <div className='shadow-2xl rounded-xl flex justify-center items-center'>
+                    <div className='shadow-2xl rounded-xl flex justify-center items-center  p-3'>
                         <MyLineChart />
                     </div>
                     <div className='shadow-2xl rounded-xl justify-center items-center flex'>

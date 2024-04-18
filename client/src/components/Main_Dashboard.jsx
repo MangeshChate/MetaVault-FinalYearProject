@@ -10,6 +10,7 @@ import Videos from './mainDashboard/Videos'
 import Experiences from './mainDashboard/Experiences'
 import Profile from './mainDashboard/Profile'
 import BuyCoin from './mainDashboard/BuyCoin'
+import EditDoc from './mainDashboard/EditDoc'
 
 
 const Main_Dashboard = ({selectedComponent  , contract }) => {
@@ -17,7 +18,7 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
 
 
   return (
-    <div className="text-white">
+    <div className="text-white ">
     {selectedComponent ===  '' && <Dashhome  contract={contract} />}
     {selectedComponent === 'MyFiles' && <MyFiles contract={contract} />}
     {selectedComponent === 'Images' && <MyImages  contract={contract}/>}
@@ -26,6 +27,8 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
     {selectedComponent === 'experiences' && <Experiences contract={contract}/>}
     {selectedComponent === 'profile' && <Profile contract={contract}/>}
     {selectedComponent === 'buycoin' && <BuyCoin contract={contract}/>}
+    {selectedComponent === 'editdoc' && <EditDoc contract={contract}/>}
+
 
 
 

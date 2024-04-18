@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { AssistWalker, PersonPinCircle, TextFields } from '@mui/icons-material';
 
 const ChatInterface = () => {
   const [inputText, setInputText] = useState('');
@@ -44,34 +45,75 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 text-white h-[92vh]">
+    <div className="flex flex-col p-4 text-white h-[92vh] bg-[rgb(19,19,20)]">
       <div className="overflow-y-auto flex-grow container">
-        {conversation.map((message, index) => (
-          <div key={index} className={`flex mb-4 ${message.role === 'assistant' ? 'justify-end' : 'justify-start'}`}>
-            {message.role === 'assistant' && (
-              <div className="flex items-end ">
-                <div className="  mr-2 text-xl flex justify-end">
-                  <div className='rounded-xl p-5 w-[75%] white-blur-glass'>
-                    {message.content}
-
+        {conversation.length === 1 ? (
+          <div className="  w-full h-full">
+              <div className='container p-[150px] flex flex-col gap-4'>
+                <span className='google-font text-6xl font-bold modern-text'>Hello, Mangesh</span>
+                <span className='text-gray-500  text-6xl font-bold google-font'>How can I help you today?</span>
+                <div className='flex gap-4 mt-[100px]'>
+                  <div className='w-[250px] h-[200px] rounded-2xl bg-gray-800 flex  p-5 hover:bg-gray-600 cursor-pointer flex-col items-end gap-[50px] relative' onClick={()=>setInputText("Tips For Secure Documents")}>
+                    <span className='google-font text-xl'>Ask, Tips for Secure Documents. </span>
+                    <span className='flex justify-end absolute bottom-6'>
+                      <TextFields className=' text-3xl ' style={{fontSize:"2rem"}}/>
+                    </span>
                   </div>
-                </div>
-                <img src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg" alt="Assistant" className="w-9 h-8 rounded-full" />
-              </div>
-            )}
-            {message.role === 'user' && (
-              <div className="flex items-end ">
-                <img src="https://gateway.pinata.cloud/ipfs/QmS7YQ9bFGH3WeLbLPJEKYHAyiEi6E5Vpr5tSi4Pkh6cKa" alt="User" className="w-9 h-8 rounded-full" />
-                <div className=" r ml-2 text-xl">
-                <div className='rounded-xl p-5  blue-blur-glass'>
-                    {message.content}
 
+                  <div className='w-[250px] h-[200px] rounded-2xl bg-gray-800 flex  p-5 hover:bg-gray-600 cursor-pointer flex-col items-end gap-[50px] relative' onClick={()=>setInputText("What exactly is Blockchain explain in short  ?")}>
+                    <span className='google-font text-xl'>Ask, About to define blockchain. </span>
+                    <span className='flex justify-end absolute bottom-6'>
+                      <TextFields className=' text-3xl ' style={{fontSize:"2rem"}}/>
+                    </span>
                   </div>
+
+                  <div className='w-[250px] h-[200px] rounded-2xl bg-gray-800 flex  p-5 hover:bg-gray-600 cursor-pointer flex-col items-end gap-[50px] relative' onClick={()=>setInputText("Expalin in Short About Metaverse and Virtual-Reality in Web 3.0 World.")}>
+                    <span className='google-font text-xl'>Ask, About Metaverse and Virtual-Reality in Web 3.0 World. </span>
+                    <span className='flex justify-end absolute bottom-6'>
+                      <TextFields className=' text-3xl ' style={{fontSize:"2rem"}}/>
+                    </span>
+                  </div>
+
+                  <div className='w-[250px] h-[200px] rounded-2xl bg-gray-800 flex  p-5 hover:bg-gray-600 cursor-pointer flex-col items-end gap-[50px] relative' onClick={()=>setInputText("what exactly cryptocurrency and token in ERC20 ?")}>
+                    <span className='google-font text-xl'>Ask, About ERC20 Cryptocurrency Creation. </span>
+                    <span className='flex justify-end absolute bottom-6 '>
+                      <TextFields className=' text-3xl ' style={{fontSize:"2rem"}}/>
+                    </span>
+                  </div>
+                  
+
+                  
+
                 </div>
               </div>
-            )}
+              
           </div>
-        ))}
+        ) : (
+          conversation.map((message, index) => (
+            <div key={index} className={`flex mb-4 ${message.role === 'assistant' ? 'justify-end' : 'justify-start'}`}>
+              {message.role === 'assistant' && (
+                <div className="flex items-end ">
+                  <div className="  mr-2 text-xl flex justify-end">
+                    <div className='rounded-xl p-5 w-[75%] white-blur-glass'>
+                      {message.content}
+                    </div>
+                  </div>
+                  <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png" alt="Assistant" className="w-9 h-8 rounded-full object-cover" />
+                </div>
+              )}
+              {message.role === 'user' && (
+                <div className="flex items-end ">
+                  <img src="https://gateway.pinata.cloud/ipfs/QmS7YQ9bFGH3WeLbLPJEKYHAyiEi6E5Vpr5tSi4Pkh6cKa" alt="User" className="w-9 h-8 rounded-full" />
+                  <div className=" r ml-2 text-xl">
+                    <div className='rounded-xl p-5  blue-blur-glass'>
+                      {message.content}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
       <div className="flex gap-3 justify-center">
         <input

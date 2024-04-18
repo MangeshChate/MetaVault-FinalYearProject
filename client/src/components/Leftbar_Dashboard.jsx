@@ -1,18 +1,13 @@
 import React from 'react';
-import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack } from '@mui/icons-material';
+import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack, DocumentScannerOutlined, FileOpenOutlined } from '@mui/icons-material';
 
 
 const Leftbar_Dashboard = ({ onItemClick }) => {
   const profileImageUrl = localStorage.getItem("profileImgUrl");
   return (
-    <div className='h-[92vh]   p-5 bg-[#252525] text-light'>
-      <div className='flex mt-5'>
-        <div className='btn  p-3 px-8 flex rounded-full border-2 border-white' >
-          <span className='font-bold'> <Add /></span>
-          <span className='text-xl ms-5 font-bold'>New</span>
-        </div>
-      </div>
-      <div className='mt-5'>
+    <div className='h-[92vh]   p-5 bg-[rgb(30,31,32)] text-light'>
+      
+      <div className=''>
         <ul className='p-5 flex flex-col gap-5'>
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('')}>
             <span className=''>
@@ -44,7 +39,13 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
             </span>
             <span>Talk With AI</span>
           </li>
-          <hr className='mt-5' />
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('editdoc')}>
+            <span className=''>
+              <FileOpenOutlined />
+            </span>
+            <span>Create Doc</span>
+          </li>
+          <hr className='mt-3' />
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('profile')}>
             <span className=''>
               <img src={profileImageUrl} className='w-[50px] h-[50px] rounded-full object-cover' alt="" />
@@ -60,7 +61,7 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
             <span >Experiences</span>
           </li>
 
-          <hr className='mt-5' />
+          <hr className='mt-3' />
           
         </ul>
 

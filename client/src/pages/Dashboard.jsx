@@ -5,16 +5,18 @@ import { ethers } from 'ethers';
 import ABI from './ABI.json';
 import Joyride from 'react-joyride';
 
+import { Menu } from '@mui/icons-material';
+
 const steps = [
     {
-      target: '.my-first-step',
-      content: 'This is my awesome feature!',
+        target: '.my-first-step',
+        content: 'This is my awesome feature!',
     },
     {
-      target: '.my-other-step',
-      content: 'This another awesome feature!',
+        target: '.my-other-step',
+        content: 'This another awesome feature!',
     },
-  ];
+];
 
 const Dashboard = ({ state }) => {
     const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
@@ -25,21 +27,25 @@ const Dashboard = ({ state }) => {
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState('');
     const [contract, setContract] = useState(null);
-    const [userData , setUserData] = useState([]);
+    const [userData, setUserData] = useState([]);
+    const [isSidebarShort, setIsSidebarShort] = useState(false);
 
+    const handleMenuClick = () => {
+        setIsSidebarShort(!isSidebarShort);
+    };
 
     const [steps, setSteps] = useState([
         {
-          target: '.firstStep',
-          content: 'This is a super awesome feature!',
+            target: '.firstStep',
+            content: 'This is a super awesome feature!',
         },
         {
-          target: '.secondStep',
-          content: "Everyone's learning React Joyride!",
+            target: '.secondStep',
+            content: "Everyone's learning React Joyride!",
         },
-      ]);
+    ]);
 
-    
+
 
 
     const handleNavbarItemClick = (componentName) => {
@@ -56,25 +62,25 @@ const Dashboard = ({ state }) => {
                 const address = await signer.getAddress();
                 setAccount(address);
                 localStorage.setItem('account', address);
-                
+
                 setConnected(true);
-    
+
                 const contractAddress = contract_address;
                 const abi = ABI;
                 const contract = new ethers.Contract(contractAddress, abi, signer);
                 setContract(contract);
-    
-               
-    
+
+
+
             } catch (error) {
                 console.error('Error connecting with wallet:', error);
                 setConnected(false);
             }
         };
-    
+
         connect();
     }, []);
-    
+
     useEffect(() => {
         const res = async () => {
             try {
@@ -88,7 +94,7 @@ const Dashboard = ({ state }) => {
                 console.error('Error fetching data:', error);
             }
         };
-    
+
         res();
     }, [contract]);
 
@@ -96,8 +102,8 @@ const Dashboard = ({ state }) => {
 
 
     return (
-        <div className=''>
-             <Joyride steps={steps} />
+        <div className='h-[100vh] overflow-hidden'>
+            <Joyride steps={steps} />
             <div className='bg-[#252525] p-3 text-white flex items-center justify-between'>
                 <div>
                     <span className='logo-font text-3xl'>Metavault</span>
@@ -108,7 +114,7 @@ const Dashboard = ({ state }) => {
                     </div>
                     <div className='  gap-3 border neon-bg  border-blue-500 cursor-pointer  rounded-full  p-2 flex justify-center items-center' >
                         <img src="https://preview.redd.it/i-made-a-custom-op-discord-icon-v0-oby6d0ersbs81.png?auto=webp&s=0101218530a2068771a744d6523f09c29df76e90" alt="" className='w-[35px] object-cover' />
-                    <span className="text-xl logo-font">{userData.tokenBalance?.toString()} MAP</span>
+                        <span className="text-xl logo-font">{userData.tokenBalance?.toString()} MAP</span>
                     </div>
                     <div className='flex items-center gap-3 border  pe-3 border-blue-500 cursor-pointer  rounded-full' >
                         <img src={userData[1]} alt="" className='w-[50px] h-[50px] rounded-full object-cover' />
@@ -117,12 +123,22 @@ const Dashboard = ({ state }) => {
                 </div>
             </div>
 
-            <div className='grid grid-cols-12 h-full'>
-                <div className='col-span-2 relative'>
-                    <Leftbar_Dashboard onItemClick={handleNavbarItemClick} />
-                </div>
-                <div className='col-span-10 bg-dark '>
-                    <Main_Dashboard selectedComponent={selectedComponent}  contract={contract} account={account}/>
+            <div className='flex h-screen bg-dark'>
+                
+                    <div className={`w-[200px] bg-[rgb(30,31,32)] h-[92vh] transition-all duration-300 ${isSidebarShort ? 'w-[60px]' : 'w-[300px]'}`}>
+                        <div className='flex justify-start px-2 mt-5' onClick={handleMenuClick}>
+                            <span className='p-3 cursor-pointer rounded-full hover:bg-gray-600'>
+                                <Menu className='text-white' />
+                            </span>
+                        </div>
+                        {/* Use opacity and transition for smooth reveal */}
+                        <div className={`transition-opacity duration-300 ${isSidebarShort ? 'opacity-0' : 'opacity-100'}`}>
+                            {!isSidebarShort && <Leftbar_Dashboard onItemClick={handleNavbarItemClick} />}
+                        </div>
+                    </div>
+               
+                <div className='flex-1 bg-dark'>
+                    <Main_Dashboard selectedComponent={selectedComponent} contract={contract} account={account} />
                 </div>
             </div>
         </div>
