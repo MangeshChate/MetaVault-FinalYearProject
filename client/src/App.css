@@ -21,7 +21,7 @@
 }
 
 .bg-grid{
-  background-image: radial-gradient(#474bff 1px, transparent 1px);
+  background-image: radial-gradient(#474bff 0.8px, transparent 0.5px);
 background-size: 20px 20px;
 background-color: #ffffff;
 }

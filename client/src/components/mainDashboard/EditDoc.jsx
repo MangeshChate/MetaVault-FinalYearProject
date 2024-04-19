@@ -16,6 +16,7 @@ const EditDoc = ({ contract }) => {
   const account = localStorage.getItem('account');
   const fileType = "pdf";
   const description = "no description";
+  const [loading, setLoading] = useState(false);
 
   const initializeEditor = () => {
     if (!editorRef.current) {
@@ -36,6 +37,53 @@ const EditDoc = ({ contract }) => {
           },
         },
       });
+    }
+  };
+
+  const handleAIResponse = async () => {
+    if (!editorRef.current) {
+      console.error('Editor instance is not initialized');
+      return;
+    }
+
+    const prompt = getSelectedText();
+    if (!prompt.trim()) {
+      console.error('Prompt is empty.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await getAIResponse(prompt);
+      insertAIResponse(response);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getSelectedText = () => {
+    const selection = window.getSelection();
+    return selection.toString().trim();
+  };
+
+  const insertAIResponse = (response) => {
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(document.createTextNode(response));
+  };
+  
+
+  const getAIResponse = async (prompt) => {
+    try {
+      const apiUrl = "https://chatpostapp-23srkaehza-uc.a.run.app/palm2";
+      const response = await axios.post(apiUrl, { user_input: prompt });
+      return response.data.content;
+    } catch (error) {
+      console.error('Error fetching response from AI:', error);
+      return 'Error occurred while fetching response from AI.';
     }
   };
 
@@ -176,8 +224,8 @@ const EditDoc = ({ contract }) => {
     <div className='bg-[rgb(19,19,20)] h-[92vh] px-5'>
       <div className='grid grid-cols-4 h-full '>
         <div className='col-span-2  p-5 flex justify-center'>
-          <div className='bg-grid w-[750px] h-[800px] rounded-xl shadow-2xl text-black py-5 text-xl overflow-y-scroll'id="editorjs">
-
+          <div className='bg-grid w-[750px] h-[800px] rounded-xl shadow-2xl text-black py-5 text-xl overflow-y-scroll px-5'>
+            <div id="editorjs"></div>
           </div>
         </div>
         <div className='col-span-2 p-5 flex flex-col items-center'>
@@ -192,6 +240,15 @@ const EditDoc = ({ contract }) => {
               <input type="text" className='p-2 white-blur-glass rounded-xl' placeholder='Enter Document Name' value={pdfname} onChange={(e) => setPdfName(e.target.value)} />
               <button className="btn gradient-bg rounded-lg" onClick={handleSubmit} disabled={uploadingFile}>Upload to Blockchain</button>
               <button className="btn border border-white rounded-lg" onClick={exportToPdf}>Download PDF</button>
+            </div>
+            <div className='mt-5'>
+              <span className='my-3 mb-3'>
+
+            {loading && <p>Loading...</p>}
+              </span>
+              <button  className="btn gradient-bg  w-[50%] rounded-full" onClick={handleAIResponse}>
+                  Get AI Responce
+              </button>
             </div>
           </div>
         </div>
