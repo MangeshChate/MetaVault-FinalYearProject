@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack, DocumentScannerOutlined, FileOpenOutlined } from '@mui/icons-material';
+import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack, DocumentScannerOutlined, FileOpenOutlined, ViewInAr  } from '@mui/icons-material';
+
 
 
 const Leftbar_Dashboard = ({ onItemClick }) => {
@@ -7,7 +8,7 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
   return (
     <div className='h-[92vh]   p-5 bg-[rgb(30,31,32)] text-light'>
       
-      <div className=''>
+      <div className='h-[95%] overflow-y-scroll'>
         <ul className='p-5 flex flex-col gap-5'>
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('')}>
             <span className=''>
@@ -32,6 +33,12 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
               <VideoCameraBack />
             </span>
             <span>My Videos</span>
+          </li>
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('3dmodel')}>
+            <span className=''>
+              <ViewInAr/>
+            </span>
+            <span>3d Models</span>
           </li>
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('TalkWithAI')}>
             <span className=''>
@@ -65,7 +72,7 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
           
         </ul>
 
-        <div className='flex   items-center gap-5 p-5 rounded-xl  logo-font text-xl white-blur-glass font-bold mt-5 w-full cursor-pointer justify-center' onClick={() => onItemClick('buycoin')}>
+        <div className='flex me-3 mb-5 items-center gap-5 h-[60px] w-[90%] rounded-xl  logo-font text-xl white-blur-glass font-bold mt-5  cursor-pointer justify-center' onClick={() => onItemClick('buycoin')}>
     
             <span className='logo-font'>Buy MapCoin</span>
           </div>

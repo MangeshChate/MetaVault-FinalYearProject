@@ -6,7 +6,7 @@ import ABI from "./ABI.json";
 import { Link } from 'react-router-dom';
 const Connect = ({saveState}) => {
   const contract_address = import.meta.env.VITE_CONTRACT_ADDRESS;
-console.log(import.meta.env.VITE_CONTRACT_ADDRESS);
+
 
 
   const [isConnect, setConnected] = useState(false);

@@ -8,6 +8,9 @@ import { BrowserRouter as Router , Routes , Route } from 'react-router-dom';
 import Register from './components/Register';
 import Metaverse from './pages/Metaverse';
 
+
+
+
 const App = () => {
 
   const [state ,setState] = useState({
