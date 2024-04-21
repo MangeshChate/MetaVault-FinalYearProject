@@ -12,6 +12,7 @@ import Profile from './mainDashboard/Profile'
 import BuyCoin from './mainDashboard/BuyCoin'
 import EditDoc from './mainDashboard/EditDoc'
 import Model from './mainDashboard/Model'
+import PasswordManager from './mainDashboard/PasswordManager'
 
 
 const Main_Dashboard = ({selectedComponent  , contract }) => {
@@ -30,6 +31,8 @@ const Main_Dashboard = ({selectedComponent  , contract }) => {
     {selectedComponent === 'buycoin' && <BuyCoin contract={contract}/>}
     {selectedComponent === 'editdoc' && <EditDoc contract={contract}/>}
     {selectedComponent === '3dmodel' && <Model contract={contract}/>}
+    {selectedComponent === 'password' && <PasswordManager contract={contract}/>}
+
 
 
 

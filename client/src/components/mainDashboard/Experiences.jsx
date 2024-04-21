@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Experiences = () => {
     return (
-        <div className='h-[90vh]'>
-            <div className="text-2xl h-[600px] rounded-[20px] m-5 " style={{ backgroundImage: "url('https://static.stambol.com/wordpress/wp-content/uploads/2022/01/nfts-provide-immersive-exclusive-experiences-in-metaverse-oasis.jpg')", backgroundPosition: "center" }}>
+        <div className='bg-[rgb(19,19,20)] h-[92vh] p-5'>
+            <div className="text-2xl h-[800px] rounded-[20px]  " style={{ backgroundImage: "url('https://static.stambol.com/wordpress/wp-content/uploads/2022/01/nfts-provide-immersive-exclusive-experiences-in-metaverse-oasis.jpg')", backgroundPosition: "center" }}>
                 <div className='flex justify-center items-center h-full flex-col'>
                     <span className='text-6xl font-bold logo-font'>
                         Let's Experience Metaverse

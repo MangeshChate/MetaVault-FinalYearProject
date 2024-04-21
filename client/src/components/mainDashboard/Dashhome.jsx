@@ -11,6 +11,7 @@ const Dashhome = ({ contract }) => {
     const [video, setVideo] = useState('');
     const [file, setFile] = useState('');
     const [image, setImage] = useState('');
+    const [model ,setModel] = useState('');
 
 
     const account = localStorage.getItem('account');
@@ -55,10 +56,13 @@ const Dashhome = ({ contract }) => {
                     const image = data.filter(document => document.file_type === 'image');
                     const pdf = data.filter(document => document.file_type === 'pdf');
                     const video = data.filter(document => document.file_type === 'video');
+                    const model = data.filter(document => document.file_type === 'glb');
+
 
                     setImage(image.length)
                     setFile(pdf.length)
                     setVideo(video.length)
+                    setModel(model.length)
 
                 }
             } catch {
@@ -107,7 +111,7 @@ const Dashhome = ({ contract }) => {
                         <MyLineChart />
                     </div>
                     <div className='shadow-2xl rounded-xl justify-center items-center flex'>
-                        <FileTypeDistributionPieChart i={image} f={file} v={video} />
+                        <FileTypeDistributionPieChart i={image} f={file} v={video} m={model} />
                     </div>
                 </div>
                 <div className='grid grid-cols-1 lg:grid-cols-12 h-[250px] p-4 mt-5 gap-4'>

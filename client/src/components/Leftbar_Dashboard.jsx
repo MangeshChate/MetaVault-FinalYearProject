@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack, DocumentScannerOutlined, FileOpenOutlined, ViewInAr  } from '@mui/icons-material';
+import { Dashboard, FilePresent, ChatBubble, Add, Image, VideoCameraBack, DocumentScannerOutlined, FileOpenOutlined, ViewInAr, Password  } from '@mui/icons-material';
 
 
 
@@ -40,17 +40,23 @@ const Leftbar_Dashboard = ({ onItemClick }) => {
             </span>
             <span>3d Models</span>
           </li>
-          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('TalkWithAI')}>
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('password')}>
             <span className=''>
-              <ChatBubble />
+              <Password/>
             </span>
-            <span>Talk With AI</span>
+            <span>KeySafe</span>
           </li>
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('editdoc')}>
             <span className=''>
               <FileOpenOutlined />
             </span>
             <span>Create Doc</span>
+          </li>
+          <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 cursor-pointer' onClick={() => onItemClick('TalkWithAI')}>
+            <span className=''>
+              <ChatBubble />
+            </span>
+            <span>Talk With AI</span>
           </li>
           <hr className='mt-3' />
           <li className='flex hover:text-blue-400 items-center gap-5 text-xl font-bold mt-5 w-full cursor-pointer' onClick={() => onItemClick('profile')}>

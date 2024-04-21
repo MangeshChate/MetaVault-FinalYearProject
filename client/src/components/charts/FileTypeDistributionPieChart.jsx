@@ -3,12 +3,14 @@ import { PieChart, Pie, Tooltip, Legend, Cell } from 'recharts';
 
 
 
-const FileTypeDistributionPieChart = ({i ,f,v}) => {
+const FileTypeDistributionPieChart = ({i ,f,v ,m}) => {
 
     const data = [
         { type: 'Document', count: f },
         { type: 'Image', count: i },
         { type: 'Video', count: v },
+        { type: '3dModel', count: m },
+
         
     ];
     
