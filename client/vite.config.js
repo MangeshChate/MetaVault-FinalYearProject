@@ -8,4 +8,10 @@ dotenv.config();
 export default defineConfig({
   assetsInclude: ['**/*.glb'],
   plugins: [react()],
+  server: {
+    mimeTypes: {
+      'text/html': ['htm', 'html'],
+      'image/svg+xml': ['svg']
+    }
+  }
 })
